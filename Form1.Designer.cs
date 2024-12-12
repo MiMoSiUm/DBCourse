@@ -36,6 +36,8 @@
             button6 = new Button();
             button7 = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
+            label1 = new Label();
+            FilterTable = new TableLayoutPanel();
             SuspendLayout();
             // 
             // button1
@@ -114,18 +116,41 @@
             tableLayoutPanel1.AutoScroll = true;
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
-            tableLayoutPanel1.Location = new Point(12, 58);
+            tableLayoutPanel1.Location = new Point(12, 101);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.Size = new Size(891, 380);
+            tableLayoutPanel1.Size = new Size(891, 337);
             tableLayoutPanel1.TabIndex = 8;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 83);
+            label1.Name = "label1";
+            label1.Size = new Size(102, 15);
+            label1.TabIndex = 9;
+            label1.Text = "Добавить строку:";
+            // 
+            // FilterTable
+            // 
+            FilterTable.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            FilterTable.ColumnCount = 1;
+            FilterTable.ColumnStyles.Add(new ColumnStyle());
+            FilterTable.Location = new Point(12, 41);
+            FilterTable.Name = "FilterTable";
+            FilterTable.RowCount = 1;
+            FilterTable.RowStyles.Add(new RowStyle());
+            FilterTable.Size = new Size(891, 39);
+            FilterTable.TabIndex = 10;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(915, 450);
+            Controls.Add(FilterTable);
+            Controls.Add(label1);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(button7);
             Controls.Add(button6);
@@ -137,6 +162,7 @@
             Name = "Form1";
             Text = "Form1";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -148,5 +174,7 @@
         private Button button6;
         private Button button7;
         private TableLayoutPanel tableLayoutPanel1;
+        private Label label1;
+        private TableLayoutPanel FilterTable;
     }
 }

@@ -1,4 +1,6 @@
 using Npgsql;
+using System.Runtime.CompilerServices;
+using System.Xml.Serialization;
 
 namespace DBCourse
 {
@@ -147,10 +149,7 @@ namespace DBCourse
             BlankRowAdd();
 
             for (int i = 0; i < Brigades.Columns.Count; ++i)
-            {
                 tableLayoutPanel1.Controls.Add(new Label() { Text = Brigades.Columns[i] });
-                //tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
-            }
             tableLayoutPanel1.Controls.Add(new Label() { Text = " " });
             tableLayoutPanel1.Controls.Add(new Label() { Text = " " });
 
@@ -163,6 +162,7 @@ namespace DBCourse
             }
 
             TableEven();
+            FilterTableAdd();
         }
 
         async private void button2_Click(object sender, EventArgs e) // car_repair
@@ -192,6 +192,7 @@ namespace DBCourse
             }
 
             TableEven();
+            FilterTableAdd();
         }
 
         async private void button3_Click(object sender, EventArgs e) // cars
@@ -221,6 +222,7 @@ namespace DBCourse
             }
 
             TableEven();
+            FilterTableAdd();
         }
 
         async private void button4_Click(object sender, EventArgs e) // failures
@@ -248,6 +250,7 @@ namespace DBCourse
             }
 
             TableEven();
+            FilterTableAdd();
         }
 
         async private void button5_Click(object sender, EventArgs e) // personnel
@@ -275,6 +278,7 @@ namespace DBCourse
             }
 
             TableEven();
+            FilterTableAdd();
         }
 
         async private void button6_Click(object sender, EventArgs e) // spare_parts
@@ -304,6 +308,7 @@ namespace DBCourse
             }
 
             TableEven();
+            FilterTableAdd();
         }
 
         async private void button7_Click(object sender, EventArgs e) // workshops
@@ -330,6 +335,7 @@ namespace DBCourse
             }
 
             TableEven();
+            FilterTableAdd();
         }
 
         async private void Add_row_click(object sender, EventArgs e)
@@ -550,6 +556,130 @@ namespace DBCourse
             {
                 tableLayoutPanel1.Controls[i].Width = ((this.Width - 100) / tableLayoutPanel1.ColumnCount);
                 tableLayoutPanel1.Controls[i].Dock = DockStyle.Fill;
+            }
+        }
+        void FilterTableAdd()
+        {
+            FilterTable.Controls.Clear();
+            if (FilterTable.Controls.Count == 0)
+            {
+                switch (current_table)
+                {
+                    case Tables.Brigades:
+                        FilterTable.ColumnCount = Brigades.Columns.Count + 2;
+                        break;
+                    case Tables.Car_repair:
+                        FilterTable.ColumnCount = Car_repair.Columns.Count + 2;
+                        break;
+                    case Tables.Cars:
+                        FilterTable.ColumnCount = Cars.Columns.Count + 2;
+                        break;
+                    case Tables.Failures:
+                        FilterTable.ColumnCount = Failures.Columns.Count + 2;
+                        break;
+                    case Tables.Personnel:
+                        FilterTable.ColumnCount = Personnel.Columns.Count + 2;
+                        break;
+                    case Tables.Spare_parts:
+                        FilterTable.ColumnCount = Spare_parts.Columns.Count + 2;
+                        break;
+                    case Tables.Workshops:
+                        FilterTable.ColumnCount = Workshops.Columns.Count + 2;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            for (int i = 0; i < FilterTable.ColumnCount - 2; ++i)
+                FilterTable.Controls.Add(new TextBox());
+            Button FindButton = new Button() { Text = "Найти" };
+            FindButton.Click += (sender, args) => Update(sender, args);
+            FilterTable.Controls.Add(FindButton);
+            FilterTable.Controls.Add(new Label());
+            for (int i = 0; i < FilterTable.Controls.Count; ++i)
+            {
+                FilterTable.Controls[i].Width = ((this.Width - 100) / tableLayoutPanel1.ColumnCount);
+                FilterTable.Controls[i].Dock = DockStyle.Fill;
+            }
+        }
+        async Task Update(object sender, EventArgs e)
+        {
+            await using var dataSource = NpgsqlDataSource.Create(connectionString);
+            await using var connection = await dataSource.OpenConnectionAsync();
+
+            List<NpgsqlParameter> parameters = new List<NpgsqlParameter>();
+            List<string> expressions = new List<string>();
+            string tableName = "";
+            switch (current_table)
+            {
+                case Tables.Brigades:
+                    tableName = Brigades.Name;
+                    for (int i = 0; i < FilterTable.Controls.Count; ++i)
+                    {
+                        if (FilterTable.Controls[i].Text != "")
+                        {
+                            expressions.Add($"{Brigades.Columns[i]} = ${expressions.Count + 1}");
+                            parameters.Add(new()
+                            {
+                                Value = Convert.ChangeType(FilterTable.Controls[i].Text, Brigades.Types[i])
+                            });
+                        }
+                    }
+                    break;
+                case Tables.Car_repair:
+                    for (int i = 0; i < FilterTable.Controls.Count; ++i)
+                    {
+
+                    }
+                    break;
+                case Tables.Cars:
+                    for (int i = 0; i < FilterTable.Controls.Count; ++i)
+                    {
+
+                    }
+                    break;
+                case Tables.Failures:
+                    for (int i = 0; i < FilterTable.Controls.Count; ++i)
+                    {
+
+                    }
+                    break;
+                case Tables.Personnel:
+                    for (int i = 0; i < FilterTable.Controls.Count; ++i)
+                    {
+
+                    }
+                    break;
+                case Tables.Spare_parts:
+                    for (int i = 0; i < FilterTable.Controls.Count; ++i)
+                    {
+
+                    }
+                    break;
+                case Tables.Workshops:
+                    for (int i = 0; i < FilterTable.Controls.Count; ++i)
+                    {
+
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+            string commandText = $"SELECT * FROM {tableName} WHERE {string.Join(" AND ", expressions)}";
+
+            await using var command = new NpgsqlCommand(commandText, connection);
+            command.Parameters.AddRange(parameters.ToArray());
+
+            await command.ExecuteNonQueryAsync();
+
+            brigades.Clear();
+            await using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                brigades.Add(new Brigades(reader.GetString(0), reader.GetInt32(1)));
             }
         }
     }

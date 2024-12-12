@@ -20,6 +20,7 @@ namespace DBCourse
     }
     class Brigades
     {
+        public static List<Type> Types { get; private set; }
         public static string Name { get; } = "brigades";
         public static List<string> Columns { get; } = ["brigade_name", "brigade_id"];
         public string brigade_name;
@@ -44,6 +45,10 @@ namespace DBCourse
 
             deleteButton = new Button() { Text = "Удалить" };
             deleteButton.Click += (sender, args) => Delete(sender, args);
+
+            Types = new List<Type>();
+            Types.Add(brigade_name.GetType());
+            Types.Add(brigade_id.GetType());
         }
 
         async private void Update(object sender, EventArgs e)
