@@ -133,7 +133,6 @@ namespace DBCourse
             while (await reader.ReadAsync())
             {
                 workshops.Add(new Workshops (reader.GetString(0), reader.GetInt32(1)));
-                textBox1.AppendText(workshops.Last().workshop_id + " " + workshops.Last().workshop_name + Environment.NewLine);
             }
         }
 
@@ -148,7 +147,10 @@ namespace DBCourse
             BlankRowAdd();
 
             for (int i = 0; i < Brigades.Columns.Count; ++i)
+            {
                 tableLayoutPanel1.Controls.Add(new Label() { Text = Brigades.Columns[i] });
+                //tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
+            }
             tableLayoutPanel1.Controls.Add(new Label() { Text = " " });
             tableLayoutPanel1.Controls.Add(new Label() { Text = " " });
 
@@ -159,6 +161,8 @@ namespace DBCourse
                 tableLayoutPanel1.Controls.Add(brigades[i].updateButton);
                 tableLayoutPanel1.Controls.Add(brigades[i].deleteButton);
             }
+
+            TableEven();
         }
 
         async private void button2_Click(object sender, EventArgs e) // car_repair
@@ -186,6 +190,8 @@ namespace DBCourse
                 tableLayoutPanel1.Controls.Add(car_repair[i].updateButton);
                 tableLayoutPanel1.Controls.Add(car_repair[i].deleteButton);
             }
+
+            TableEven();
         }
 
         async private void button3_Click(object sender, EventArgs e) // cars
@@ -213,6 +219,8 @@ namespace DBCourse
                 tableLayoutPanel1.Controls.Add(cars[i].updateButton);
                 tableLayoutPanel1.Controls.Add(cars[i].deleteButton);
             }
+
+            TableEven();
         }
 
         async private void button4_Click(object sender, EventArgs e) // failures
@@ -238,6 +246,8 @@ namespace DBCourse
                 tableLayoutPanel1.Controls.Add(failures[i].updateButton);
                 tableLayoutPanel1.Controls.Add(failures[i].deleteButton);
             }
+
+            TableEven();
         }
 
         async private void button5_Click(object sender, EventArgs e) // personnel
@@ -263,6 +273,8 @@ namespace DBCourse
                 tableLayoutPanel1.Controls.Add(personnel[i].updateButton);
                 tableLayoutPanel1.Controls.Add(personnel[i].deleteButton);
             }
+
+            TableEven();
         }
 
         async private void button6_Click(object sender, EventArgs e) // spare_parts
@@ -290,6 +302,8 @@ namespace DBCourse
                 tableLayoutPanel1.Controls.Add(spare_parts[i].updateButton);
                 tableLayoutPanel1.Controls.Add(spare_parts[i].deleteButton);
             }
+
+            TableEven();
         }
 
         async private void button7_Click(object sender, EventArgs e) // workshops
@@ -314,6 +328,8 @@ namespace DBCourse
                 tableLayoutPanel1.Controls.Add(workshops[i].updateButton);
                 tableLayoutPanel1.Controls.Add(workshops[i].deleteButton);
             }
+
+            TableEven();
         }
 
         async private void Add_row_click(object sender, EventArgs e)
@@ -522,6 +538,19 @@ namespace DBCourse
             addButton.Click += (sender, args) => Add_row_click(sender, args);
             tableLayoutPanel1.Controls.Add(addButton);
             tableLayoutPanel1.Controls.Add(new Label { Text = " "});
+        }
+        void TableEven()
+        {
+            for (int i = 0; i < tableLayoutPanel1.ColumnCount; ++i)
+            {
+                tableLayoutPanel1.Controls.Add(new Label());
+            }
+
+            for (int i = 0; i < tableLayoutPanel1.Controls.Count; ++i)
+            {
+                tableLayoutPanel1.Controls[i].Width = ((this.Width - 100) / tableLayoutPanel1.ColumnCount);
+                tableLayoutPanel1.Controls[i].Dock = DockStyle.Fill;
+            }
         }
     }
 }
