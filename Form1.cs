@@ -6,7 +6,7 @@ namespace DBCourse
 {
     public partial class Form1 : Form
     {
-        public static readonly string connectionString = "Host=192.168.1.119;Username=postgres;Password=postgres;Database=course work";
+        public static readonly string connectionString = "Host=localhost;Username=postgres;Password=postgres;Database=course work";
         List<Brigades> brigades = new List<Brigades>();
         List<Car_repair> car_repair = new List<Car_repair>();
         List<Cars> cars = new List<Cars>();
@@ -611,75 +611,162 @@ namespace DBCourse
             List<NpgsqlParameter> parameters = new List<NpgsqlParameter>();
             List<string> expressions = new List<string>();
             string tableName = "";
+            List<Type> types = new List<Type>();
+            List<string> cols = new List<string>();
             switch (current_table)
             {
                 case Tables.Brigades:
                     tableName = Brigades.Name;
-                    for (int i = 0; i < FilterTable.Controls.Count; ++i)
-                    {
-                        if (FilterTable.Controls[i].Text != "")
-                        {
-                            expressions.Add($"{Brigades.Columns[i]} = ${expressions.Count + 1}");
-                            parameters.Add(new()
-                            {
-                                Value = Convert.ChangeType(FilterTable.Controls[i].Text, Brigades.Types[i])
-                            });
-                        }
-                    }
+                    types = Brigades.Types;
+                    cols = Brigades.Columns;
                     break;
                 case Tables.Car_repair:
-                    for (int i = 0; i < FilterTable.Controls.Count; ++i)
-                    {
-
-                    }
+                    tableName = Car_repair.Name;
+                    types = Car_repair.Types;
+                    cols = Car_repair.Columns;
                     break;
                 case Tables.Cars:
-                    for (int i = 0; i < FilterTable.Controls.Count; ++i)
-                    {
-
-                    }
+                    tableName = Cars.Name;
+                    types = Cars.Types;
+                    cols = Cars.Columns;
                     break;
                 case Tables.Failures:
-                    for (int i = 0; i < FilterTable.Controls.Count; ++i)
-                    {
-
-                    }
+                    tableName = Failures.Name;
+                    types = Failures.Types;
+                    cols = Failures.Columns;
                     break;
                 case Tables.Personnel:
-                    for (int i = 0; i < FilterTable.Controls.Count; ++i)
-                    {
-
-                    }
+                    tableName = Personnel.Name;
+                    types = Personnel.Types;
+                    cols = Personnel.Columns;
                     break;
                 case Tables.Spare_parts:
-                    for (int i = 0; i < FilterTable.Controls.Count; ++i)
-                    {
-
-                    }
+                    tableName = Spare_parts.Name;
+                    types = Spare_parts.Types;
+                    cols = Spare_parts.Columns;
                     break;
                 case Tables.Workshops:
-                    for (int i = 0; i < FilterTable.Controls.Count; ++i)
-                    {
-
-                    }
+                    tableName = Workshops.Name;
+                    types = Workshops.Types;
+                    cols = Workshops.Columns;
                     break;
 
                 default:
                     break;
             }
-            string commandText = $"SELECT * FROM {tableName} WHERE {string.Join(" AND ", expressions)}";
+
+            for (int i = 0; i < FilterTable.Controls.Count - 2; ++i)
+            {
+                if (FilterTable.Controls[i].Text != "")
+                {
+                    expressions.Add($"{cols[i]} = ${expressions.Count + 1}");
+                    parameters.Add(new()
+                    {
+                        Value = Convert.ChangeType(FilterTable.Controls[i].Text, types[i])
+                    });
+                }
+            }
+
+            string where = expressions.Count == 0 ? "" : " WHERE ";
+            string commandText = $"SELECT * FROM {tableName}{where}{string.Join(" AND ", expressions)}";
 
             await using var command = new NpgsqlCommand(commandText, connection);
             command.Parameters.AddRange(parameters.ToArray());
 
-            await command.ExecuteNonQueryAsync();
-
-            brigades.Clear();
             await using var reader = await command.ExecuteReaderAsync();
 
-            while (await reader.ReadAsync())
+            //while (await reader.ReadAsync())
+            //{
+            //    textBox1.AppendText(reader.GetString(0) + " " + reader.GetInt32(1) + Environment.NewLine);
+            //}
+
+            switch (current_table)
             {
-                brigades.Add(new Brigades(reader.GetString(0), reader.GetInt32(1)));
+                case Tables.Brigades:
+                    brigades.Clear();
+                    while (await reader.ReadAsync())
+                    {
+                        brigades.Add(new Brigades(reader.GetString(0), reader.GetInt32(1)));
+                    }
+                    break;
+
+                case Tables.Car_repair:
+                    car_repair.Clear();
+                    while (await reader.ReadAsync())
+                    {
+                        car_repair.Add(new Car_repair(
+                            reader.GetInt32(0),
+                            reader.GetInt32(1),
+                            reader.GetDateTime(2),
+                            reader.GetDateTime(3),
+                            reader.GetInt32(4)
+                        ));
+                    }
+                    break;
+
+                case Tables.Cars:
+                    cars.Clear();
+                    while (await reader.ReadAsync())
+                    {
+                        cars.Add(new Cars(
+                            reader.GetString(0),
+                            reader.GetString(1),
+                            reader.GetString(2),
+                            reader.GetString(3),
+                            reader.GetInt32(4)
+                        ));
+                    }
+                    break;
+
+                case Tables.Failures:
+                    failures.Clear();
+                    while (await reader.ReadAsync())
+                    {
+                        failures.Add(new Failures
+                        (
+                            reader.GetString(0),
+                            reader.GetInt32(1),
+                            reader.GetInt32(2)
+                        ));
+                    }
+                    break;
+
+                case Tables.Personnel:
+                    personnel.Clear();
+                    while (await reader.ReadAsync())
+                    {
+                        personnel.Add(new Personnel(
+                            reader.GetInt32(0),
+                            reader.GetString(1),
+                            reader.GetInt32(2)
+                        ));
+                    }
+                    break;
+
+                case Tables.Spare_parts:
+                    spare_parts.Clear();
+                    while (await reader.ReadAsync())
+                    {
+                        spare_parts.Add(new Spare_parts(
+                            reader.GetInt32(0),
+                            reader.GetInt32(1),
+                            reader.GetString(2),
+                            reader.GetInt32(3),
+                            reader.GetInt32(4)
+                        ));
+                    }
+                    break;
+
+                case Tables.Workshops:
+                    workshops.Clear();
+                    while (await reader.ReadAsync())
+                    {
+                        workshops.Add(new Workshops(reader.GetString(0), reader.GetInt32(1)));
+                    }
+                    break;
+
+                default:
+                    break;
             }
         }
     }

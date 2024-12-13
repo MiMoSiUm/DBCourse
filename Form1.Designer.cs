@@ -38,6 +38,7 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             label1 = new Label();
             FilterTable = new TableLayoutPanel();
+            textBox1 = new TextBox();
             SuspendLayout();
             // 
             // button1
@@ -120,7 +121,7 @@
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.Size = new Size(891, 337);
+            tableLayoutPanel1.Size = new Size(891, 200);
             tableLayoutPanel1.TabIndex = 8;
             // 
             // label1
@@ -144,11 +145,21 @@
             FilterTable.Size = new Size(891, 39);
             FilterTable.TabIndex = 10;
             // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(12, 317);
+            textBox1.Multiline = true;
+            textBox1.Name = "textBox1";
+            textBox1.ScrollBars = ScrollBars.Both;
+            textBox1.Size = new Size(891, 121);
+            textBox1.TabIndex = 11;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(915, 450);
+            Controls.Add(textBox1);
             Controls.Add(FilterTable);
             Controls.Add(label1);
             Controls.Add(tableLayoutPanel1);
@@ -176,5 +187,6 @@
         private TableLayoutPanel tableLayoutPanel1;
         private Label label1;
         private TableLayoutPanel FilterTable;
+        private TextBox textBox1;
     }
 }

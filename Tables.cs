@@ -46,9 +46,10 @@ namespace DBCourse
             deleteButton = new Button() { Text = "Удалить" };
             deleteButton.Click += (sender, args) => Delete(sender, args);
 
-            Types = new List<Type>();
-            Types.Add(brigade_name.GetType());
-            Types.Add(brigade_id.GetType());
+            Types = [
+                brigade_name.GetType(),
+                brigade_id.GetType()
+            ];
         }
 
         async private void Update(object sender, EventArgs e)
@@ -91,6 +92,7 @@ namespace DBCourse
     }
     class Car_repair
     {
+        public static List<Type> Types { get; private set; }
         public static string Name { get; } = "car_repair";
         public static List<string> Columns { get; } = ["car_id", "failure_id", "arrival_date", "leaving_date", "brigade_id"];
         public int car_id;
@@ -132,6 +134,14 @@ namespace DBCourse
 
             deleteButton = new Button() { Text = "Удалить" };
             deleteButton.Click += (sender, args) => Delete(sender, args);
+
+            Types = [
+                car_id.GetType(),
+                failure_id.GetType(),
+                arrival_date.GetType(),
+                leaving_date.GetType(),
+                brigade_id.GetType(),
+            ];
         }
         async private void Update(object sender, EventArgs e)
         {
@@ -181,6 +191,7 @@ namespace DBCourse
     }
     class Cars
     {
+        public static List<Type> Types { get; private set; }
         public static string Name { get; } = "cars";
         public static List<string> Columns { get; } = ["car_body_number", "car_engine_number", "car_owner", "car_vin", "car_id"];
         public string car_body_number;
@@ -217,6 +228,14 @@ namespace DBCourse
 
             deleteButton = new Button() { Text = "Удалить" };
             deleteButton.Click += (sender, args) => Delete(sender, args);
+
+            Types = [
+                car_body_number.GetType(),
+                car_engine_number.GetType(),
+                car_owner.GetType(),
+                car_vin.GetType(),
+                car_id.GetType(),
+            ];
         }
         async private void Update(object sender, EventArgs e)
         {
@@ -261,6 +280,7 @@ namespace DBCourse
     }
     class Failures
     {
+        public static List<Type> Types { get; private set; }
         public static string Name { get; } = "failures";
         public static List<string> Columns { get; } = ["failure_name", "work_cost", "failure_id"];
         public string failure_name;
@@ -289,6 +309,12 @@ namespace DBCourse
 
             deleteButton = new Button() { Text = "Удалить" };
             deleteButton.Click += (sender, args) => Delete(sender, args);
+
+            Types = [
+                failure_name.GetType(),
+                work_cost.GetType(),
+                failure_id.GetType()
+            ];
         }
         async private void Update(object sender, EventArgs e)
         {
@@ -331,6 +357,7 @@ namespace DBCourse
     }
     class Personnel
     {
+        public static List<Type> Types { get; private set; }
         public static string Name { get; } = "personnel";
         public static List<string> Columns { get; } = ["workshop_id", "person_inn", "brigade_id"];
         public int workshop_id;
@@ -359,6 +386,12 @@ namespace DBCourse
 
             deleteButton = new Button() { Text = "Удалить" };
             deleteButton.Click += (sender, args) => Delete(sender, args);
+
+            Types = [
+                workshop_id.GetType(),
+                person_inn.GetType(),
+                brigade_id.GetType()
+            ];
         }
         async private void Update(object sender, EventArgs e)
         {
@@ -404,6 +437,7 @@ namespace DBCourse
     }
     class Spare_parts
     {
+        public static List<Type> Types { get; private set; }
         public static string Name { get; } = "spare_parts";
         public static List<string> Columns { get; } = ["car_id", "failure_id", "part_name", "part_cost", "part_amount"];
         public int car_id;
@@ -440,6 +474,14 @@ namespace DBCourse
 
             deleteButton = new Button() { Text = "Удалить" };
             deleteButton.Click += (sender, args) => Delete(sender, args);
+
+            Types = [
+                car_id.GetType(),
+                failure_id.GetType(),
+                part_name.GetType(),
+                part_cost.GetType(),
+                part_amount.GetType(),
+            ];
         }
         async private void Update(object sender, EventArgs e)
         {
@@ -487,6 +529,7 @@ namespace DBCourse
     }
     class Workshops
     {
+        public static List<Type> Types { get; private set; }
         public static string Name { get; } = "workshops";
         public static List<string> Columns { get; } = ["workshop_name", "workshop_id"];
         public string workshop_name;
@@ -511,6 +554,11 @@ namespace DBCourse
 
             deleteButton = new Button() { Text = "Удалить" };
             deleteButton.Click += (sender, args) => Delete(sender, args);
+
+            Types = [
+                workshop_name.GetType(),
+                workshop_id.GetType()
+            ];
         }
         async private void Update(object sender, EventArgs e)
         {
