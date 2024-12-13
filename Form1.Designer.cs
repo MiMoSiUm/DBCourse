@@ -38,7 +38,10 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             label1 = new Label();
             FilterTable = new TableLayoutPanel();
-            textBox1 = new TextBox();
+            comboBox1 = new ComboBox();
+            AscButton = new Button();
+            DescButton = new Button();
+            button8 = new Button();
             SuspendLayout();
             // 
             // button1
@@ -53,7 +56,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(117, 12);
+            button2.Location = new Point(117, 13);
             button2.Name = "button2";
             button2.Size = new Size(99, 23);
             button2.TabIndex = 2;
@@ -63,7 +66,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(222, 12);
+            button3.Location = new Point(222, 13);
             button3.Name = "button3";
             button3.Size = new Size(99, 23);
             button3.TabIndex = 3;
@@ -73,7 +76,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(327, 12);
+            button4.Location = new Point(327, 13);
             button4.Name = "button4";
             button4.Size = new Size(99, 23);
             button4.TabIndex = 4;
@@ -83,7 +86,7 @@
             // 
             // button5
             // 
-            button5.Location = new Point(432, 12);
+            button5.Location = new Point(432, 13);
             button5.Name = "button5";
             button5.Size = new Size(99, 23);
             button5.TabIndex = 5;
@@ -93,7 +96,7 @@
             // 
             // button6
             // 
-            button6.Location = new Point(537, 12);
+            button6.Location = new Point(537, 13);
             button6.Name = "button6";
             button6.Size = new Size(99, 23);
             button6.TabIndex = 6;
@@ -103,7 +106,7 @@
             // 
             // button7
             // 
-            button7.Location = new Point(642, 12);
+            button7.Location = new Point(642, 13);
             button7.Name = "button7";
             button7.Size = new Size(99, 23);
             button7.TabIndex = 7;
@@ -117,17 +120,18 @@
             tableLayoutPanel1.AutoScroll = true;
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
-            tableLayoutPanel1.Location = new Point(12, 101);
+            tableLayoutPanel1.Location = new Point(12, 125);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.Size = new Size(891, 200);
+            tableLayoutPanel1.Size = new Size(946, 313);
             tableLayoutPanel1.TabIndex = 8;
+            tableLayoutPanel1.Resize += tableLayoutPanel1_Resize;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 83);
+            label1.Location = new Point(12, 107);
             label1.Name = "label1";
             label1.Size = new Size(102, 15);
             label1.TabIndex = 9;
@@ -142,24 +146,56 @@
             FilterTable.Name = "FilterTable";
             FilterTable.RowCount = 1;
             FilterTable.RowStyles.Add(new RowStyle());
-            FilterTable.Size = new Size(891, 39);
+            FilterTable.Size = new Size(946, 39);
             FilterTable.TabIndex = 10;
             // 
-            // textBox1
+            // comboBox1
             // 
-            textBox1.Location = new Point(12, 317);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.ScrollBars = ScrollBars.Both;
-            textBox1.Size = new Size(891, 121);
-            textBox1.TabIndex = 11;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(747, 13);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(151, 23);
+            comboBox1.TabIndex = 11;
+            // 
+            // AscButton
+            // 
+            AscButton.Location = new Point(904, 12);
+            AscButton.Name = "AscButton";
+            AscButton.Size = new Size(24, 23);
+            AscButton.TabIndex = 12;
+            AscButton.Text = "↑";
+            AscButton.UseVisualStyleBackColor = true;
+            AscButton.Click += AscButton_Click;
+            // 
+            // DescButton
+            // 
+            DescButton.Location = new Point(934, 12);
+            DescButton.Name = "DescButton";
+            DescButton.Size = new Size(24, 23);
+            DescButton.TabIndex = 13;
+            DescButton.Text = "↓";
+            DescButton.UseVisualStyleBackColor = true;
+            DescButton.Click += DescButton_Click;
+            // 
+            // button8
+            // 
+            button8.Location = new Point(12, 86);
+            button8.Name = "button8";
+            button8.Size = new Size(99, 23);
+            button8.TabIndex = 14;
+            button8.Text = "cars_in_work";
+            button8.UseVisualStyleBackColor = true;
+            button8.Click += button8_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(915, 450);
-            Controls.Add(textBox1);
+            ClientSize = new Size(970, 450);
+            Controls.Add(button8);
+            Controls.Add(DescButton);
+            Controls.Add(AscButton);
+            Controls.Add(comboBox1);
             Controls.Add(FilterTable);
             Controls.Add(label1);
             Controls.Add(tableLayoutPanel1);
@@ -187,6 +223,9 @@
         private TableLayoutPanel tableLayoutPanel1;
         private Label label1;
         private TableLayoutPanel FilterTable;
-        private TextBox textBox1;
+        private ComboBox comboBox1;
+        private Button AscButton;
+        private Button DescButton;
+        private Button button8;
     }
 }

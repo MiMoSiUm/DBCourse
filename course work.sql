@@ -13,4 +13,8 @@ insert into spare_parts values (1, 1, 'part1', 1000, 50);
 
 insert into car_repair values (1, 1, current_date, current_date + '1 days'::interval, 1);
 
-select * from personnel;
+alter table personnel alter column person_inn type varchar(12);
+
+UPDATE workshops SET workshop_name = 'aaaaahh',workshop_id = 3 WHERE workshop_id = 3;
+
+select * from workshops;

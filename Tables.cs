@@ -16,7 +16,8 @@ namespace DBCourse
         Failures,
         Personnel,
         Spare_parts,
-        Workshops
+        Workshops,
+        Cars_in_work
     }
     class Brigades
     {
@@ -58,6 +59,7 @@ namespace DBCourse
             await using var connection = await dataSource.OpenConnectionAsync();
 
             List<string> expressions = new List<string>();
+            List<NpgsqlParameter> parameters = new List<NpgsqlParameter>();
 
             for (int i = 0; i < Columns.Count; ++i)
                 expressions.Add($"{Columns[i]} = ${i + 1}");
@@ -93,7 +95,7 @@ namespace DBCourse
     class Car_repair
     {
         public static List<Type> Types { get; private set; }
-        public static string Name { get; } = "car_repair";
+        public static string Name { get; set; } = "car_repair";
         public static List<string> Columns { get; } = ["car_id", "failure_id", "arrival_date", "leaving_date", "brigade_id"];
         public int car_id;
         public int failure_id;
@@ -192,7 +194,7 @@ namespace DBCourse
     class Cars
     {
         public static List<Type> Types { get; private set; }
-        public static string Name { get; } = "cars";
+        public static string Name { get; protected set; } = "cars";
         public static List<string> Columns { get; } = ["car_body_number", "car_engine_number", "car_owner", "car_vin", "car_id"];
         public string car_body_number;
         public string car_engine_number;
@@ -598,4 +600,123 @@ namespace DBCourse
             await command.ExecuteNonQueryAsync();
         }
     }
+    class Cars_in_work : Car_repair
+    {
+        public Cars_in_work(
+            int car_id,
+            int failure_id,
+            DateTime arrival_date,
+            DateTime leaving_date,
+            int brigade_id
+        ) :
+            base(
+            car_id,
+            failure_id,
+            arrival_date,
+            leaving_date,
+            brigade_id
+        )
+        {
+            Name = "cars_in_work";
+        }
+    }
+    //class Cars_in_work
+    //{
+    //    public static List<Type> Types { get; private set; }
+    //    public static string Name { get; set; } = "cars_in_work";
+    //    public static List<string> Columns { get; } = ["car_id", "failure_id", "arrival_date", "leaving_date", "brigade_id"];
+    //    public int car_id;
+    //    public int failure_id;
+    //    public DateTime arrival_date;
+    //    public DateTime leaving_date;
+    //    public int brigade_id;
+
+    //    public TextBox car_id_tb;
+    //    public TextBox failure_id_tb;
+    //    public TextBox arrival_date_tb;
+    //    public TextBox leaving_date_tb;
+    //    public TextBox brigade_id_tb;
+
+    //    public Button updateButton;
+    //    public Button deleteButton;
+    //    public Cars_in_work(
+    //        int car_id,
+    //        int failure_id,
+    //        DateTime arrival_date,
+    //        DateTime leaving_date,
+    //        int brigade_id
+    //    )
+    //    {
+    //        this.car_id = car_id;
+    //        this.failure_id = failure_id;
+    //        this.arrival_date = arrival_date;
+    //        this.leaving_date = leaving_date;
+    //        this.brigade_id = brigade_id;
+
+    //        car_id_tb = new TextBox() { Text = $"{car_id}" };
+    //        failure_id_tb = new TextBox() { Text = $"{failure_id}" };
+    //        arrival_date_tb = new TextBox() { Text = $"{arrival_date}" };
+    //        leaving_date_tb = new TextBox() { Text = $"{leaving_date}" };
+    //        brigade_id_tb = new TextBox() { Text = $"{brigade_id}" };
+
+    //        updateButton = new Button() { Text = "Изменить" };
+    //        updateButton.Click += (sender, args) => Update(sender, args);
+
+    //        deleteButton = new Button() { Text = "Удалить" };
+    //        deleteButton.Click += (sender, args) => Delete(sender, args);
+
+    //        Types = [
+    //            car_id.GetType(),
+    //            failure_id.GetType(),
+    //            arrival_date.GetType(),
+    //            leaving_date.GetType(),
+    //            brigade_id.GetType(),
+    //        ];
+    //    }
+    //    async private void Update(object sender, EventArgs e)
+    //    {
+    //        await using var dataSource = NpgsqlDataSource.Create(Form1.connectionString);
+    //        await using var connection = await dataSource.OpenConnectionAsync();
+
+    //        List<string> expressions = new List<string>();
+
+    //        for (int i = 0; i < Columns.Count; ++i)
+    //            expressions.Add($"{Columns[i]} = ${i + 1}");
+
+    //        await using var command = new NpgsqlCommand($"UPDATE {Name} SET {string.Join(",", expressions)} " +
+    //            $"WHERE car_id = $6 AND failure_id = $7 AND arrival_date = $8", connection)
+    //        {
+    //            Parameters =
+    //            {
+    //                new() {Value = int.Parse(car_id_tb.Text)},
+    //                new() {Value = int.Parse(failure_id_tb.Text)},
+    //                new() {Value = DateTime.Parse(arrival_date_tb.Text)},
+    //                new() {Value = DateTime.Parse(leaving_date_tb.Text)},
+    //                new() {Value = int.Parse(brigade_id_tb.Text)},
+    //                new() { Value = car_id },
+    //                new() { Value = failure_id },
+    //                new() { Value = arrival_date }
+    //            }
+    //        };
+
+    //        await command.ExecuteNonQueryAsync();
+    //    }
+    //    async private void Delete(object sender, EventArgs e)
+    //    {
+    //        await using var dataSource = NpgsqlDataSource.Create(Form1.connectionString);
+    //        await using var connection = await dataSource.OpenConnectionAsync();
+
+    //        await using var command = new NpgsqlCommand($"DELETE FROM {Name} WHERE " +
+    //            $"car_id = $1 AND failure_id = $2 AND arrival_date = $3", connection)
+    //        {
+    //            Parameters = {
+    //                new() { Value = car_id },
+    //                new() { Value = failure_id },
+    //                new() { Value = arrival_date }
+    //            }
+    //        };
+
+    //        await command.ExecuteNonQueryAsync();
+    //    }
+    //}
 }
