@@ -351,7 +351,7 @@ namespace DBCourse
                     break;
             }
 
-            await using var command = new NpgsqlCommand($"INSERT INTO {tableName} ({string.Join(",", cols)})" +
+            await using var command = new NpgsqlCommand($"INSERT INTO {tableName} ({string.Join(",", cols)}) " +
                 $"VALUES ({string.Join(",", placeholders)})", connection);
             command.Parameters.AddRange(parameters.ToArray());
 
@@ -571,8 +571,10 @@ namespace DBCourse
 
                     for (int i = 0; i < brigades.Count; ++i)
                     {
-                        tableLayoutPanel1.Controls.Add(brigades[i].brigade_name_tb);
-                        tableLayoutPanel1.Controls.Add(brigades[i].brigade_id_tb);
+                        //tableLayoutPanel1.Controls.Add(brigades[i].brigade_name_tb);
+                        //tableLayoutPanel1.Controls.Add(brigades[i].brigade_id_tb);
+
+                        tableLayoutPanel1.Controls.AddRange(brigades[i].TextBoxes.ToArray());
                         tableLayoutPanel1.Controls.Add(brigades[i].updateButton);
                         tableLayoutPanel1.Controls.Add(brigades[i].deleteButton);
 

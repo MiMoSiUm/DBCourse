@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
@@ -26,22 +27,21 @@ namespace DBCourse
         public static List<Type> Types { get; private set; }
         public static string Name { get; } = "brigades";
         public static List<string> Columns { get; } = ["brigade_name", "brigade_id"];
-        public string brigade_name;
-        public int brigade_id;
-
-        public TextBox brigade_name_tb;
-        public TextBox brigade_id_tb;
 
         public Button updateButton;
         public Button deleteButton;
 
+        public List<object> ColsData { get; private set; }
+        public List<TextBox> TextBoxes { get; private set; }
+        public List<int> keyIndexes = [1];
+
         public Brigades(string brigade_name, int brigade_id) 
         {
-            this.brigade_name = brigade_name;
-            this.brigade_id = brigade_id;
+            ColsData = [brigade_name, brigade_id];
 
-            brigade_name_tb = new TextBox() { Text = $"{brigade_name}" };
-            brigade_id_tb = new TextBox() { Text = $"{brigade_id}" };
+            TextBoxes = new List<TextBox>();
+            for (int i = 0; i < Columns.Count; ++i)
+                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}" });
 
             updateButton = new Button() { Text = "Изменить" };
             updateButton.Click += (sender, args) => Update(sender, args);
@@ -49,10 +49,9 @@ namespace DBCourse
             deleteButton = new Button() { Text = "Удалить" };
             deleteButton.Click += (sender, args) => Delete(sender, args);
 
-            Types = [
-                brigade_name.GetType(),
-                brigade_id.GetType()
-            ];
+            Types = new List<Type>();
+            for (int i = 0; i < ColsData.Count; ++i)
+                Types.Add(ColsData[i].GetType());
         }
 
         async private void Update(object sender, EventArgs e)
@@ -62,20 +61,24 @@ namespace DBCourse
 
             List<string> expressions = new List<string>();
             List<NpgsqlParameter> parameters = new List<NpgsqlParameter>();
-
             for (int i = 0; i < Columns.Count; ++i)
+            {
                 expressions.Add($"{Columns[i]} = ${i + 1}");
+                parameters.Add(new() { Value = ColsData[i] });
+            }
+
+            List<string> keyExpressions = new List<string>();
+            List<NpgsqlParameter> keyParameters = new List<NpgsqlParameter>();
+            for (int i = 0; i < keyIndexes.Count; ++i)
+            {
+                keyExpressions.Add($"{Columns[keyIndexes[i]]} = ${expressions.Count + i + 1}");
+                keyParameters.Add(new() { Value = ColsData[keyIndexes[i]] });
+            }
 
             await using var command = new NpgsqlCommand($"UPDATE {Name} SET {string.Join(",", expressions)} " +
-                $"WHERE brigade_id = $3", connection)
-            {
-                Parameters =
-                {
-                    new() {Value = brigade_name_tb.Text},
-                    new() {Value = int.Parse(brigade_id_tb.Text)},
-                    new() { Value = brigade_id }
-                }
-            };
+                $"WHERE {string.Join(" AND ", keyExpressions)}", connection);
+            command.Parameters.AddRange(parameters.ToArray());
+            command.Parameters.AddRange(keyParameters.ToArray());
 
             await command.ExecuteNonQueryAsync();
         }
@@ -84,12 +87,17 @@ namespace DBCourse
             await using var dataSource = NpgsqlDataSource.Create(Form1.connectionString);
             await using var connection = await dataSource.OpenConnectionAsync();
 
-            await using var command = new NpgsqlCommand($"DELETE FROM {Name} WHERE brigade_id = $1", connection)
+            List<string> keyExpressions = new List<string>();
+            List<NpgsqlParameter> keyParameters = new List<NpgsqlParameter>();
+
+            for (int i = 0; i < keyIndexes.Count; ++i)
             {
-                Parameters = {
-                    new() { Value = brigade_id }
-                }
-            };
+                keyExpressions.Add($"{Columns[keyIndexes[i]]} = ${i + 1}");
+                keyParameters.Add(new() { Value = ColsData[keyIndexes[i]] });
+            }
+
+            await using var command = new NpgsqlCommand($"DELETE FROM {Name} WHERE {string.Join(" AND ", keyExpressions)}", connection);
+            command.Parameters.AddRange(keyParameters.ToArray());
 
             await command.ExecuteNonQueryAsync();
         }
