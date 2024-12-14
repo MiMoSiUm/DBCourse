@@ -351,7 +351,7 @@ namespace DBCourse
                     break;
             }
 
-            await using var command = new NpgsqlCommand($"INSERT INTO {tableName} ({string.Join(",", cols)})" +
+            await using var command = new NpgsqlCommand($"INSERT INTO {tableName} ({string.Join(",", cols)}) " +
                 $"VALUES ({string.Join(",", placeholders)})", connection);
             command.Parameters.AddRange(parameters.ToArray());
 
@@ -571,8 +571,7 @@ namespace DBCourse
 
                     for (int i = 0; i < brigades.Count; ++i)
                     {
-                        tableLayoutPanel1.Controls.Add(brigades[i].brigade_name_tb);
-                        tableLayoutPanel1.Controls.Add(brigades[i].brigade_id_tb);
+                        tableLayoutPanel1.Controls.AddRange(brigades[i].TextBoxes.ToArray());
                         tableLayoutPanel1.Controls.Add(brigades[i].updateButton);
                         tableLayoutPanel1.Controls.Add(brigades[i].deleteButton);
 
@@ -604,11 +603,7 @@ namespace DBCourse
 
                     for (int i = 0; i < car_repair.Count; ++i)
                     {
-                        tableLayoutPanel1.Controls.Add(car_repair[i].car_id_tb);
-                        tableLayoutPanel1.Controls.Add(car_repair[i].failure_id_tb);
-                        tableLayoutPanel1.Controls.Add(car_repair[i].arrival_date_tb);
-                        tableLayoutPanel1.Controls.Add(car_repair[i].leaving_date_tb);
-                        tableLayoutPanel1.Controls.Add(car_repair[i].brigade_id_tb);
+                        tableLayoutPanel1.Controls.AddRange(car_repair[i].TextBoxes.ToArray());
                         tableLayoutPanel1.Controls.Add(car_repair[i].updateButton);
                         tableLayoutPanel1.Controls.Add(car_repair[i].deleteButton);
 
@@ -640,11 +635,7 @@ namespace DBCourse
 
                     for (int i = 0; i < cars.Count; ++i)
                     {
-                        tableLayoutPanel1.Controls.Add(cars[i].car_body_number_tb);
-                        tableLayoutPanel1.Controls.Add(cars[i].car_engine_number_tb);
-                        tableLayoutPanel1.Controls.Add(cars[i].car_owner_tb);
-                        tableLayoutPanel1.Controls.Add(cars[i].car_vin_tb);
-                        tableLayoutPanel1.Controls.Add(cars[i].car_id_tb);
+                        tableLayoutPanel1.Controls.AddRange(cars[i].TextBoxes.ToArray());
                         tableLayoutPanel1.Controls.Add(cars[i].updateButton);
                         tableLayoutPanel1.Controls.Add(cars[i].deleteButton);
 
@@ -675,9 +666,7 @@ namespace DBCourse
 
                     for (int i = 0; i < failures.Count; ++i)
                     {
-                        tableLayoutPanel1.Controls.Add(failures[i].failure_name_tb);
-                        tableLayoutPanel1.Controls.Add(failures[i].work_cost_tb);
-                        tableLayoutPanel1.Controls.Add(failures[i].failure_id_tb);
+                        tableLayoutPanel1.Controls.AddRange(failures[i].TextBoxes.ToArray());
                         tableLayoutPanel1.Controls.Add(failures[i].updateButton);
                         tableLayoutPanel1.Controls.Add(failures[i].deleteButton);
 
@@ -707,9 +696,7 @@ namespace DBCourse
 
                     for (int i = 0; i < personnel.Count; ++i)
                     {
-                        tableLayoutPanel1.Controls.Add(personnel[i].workshop_id_tb);
-                        tableLayoutPanel1.Controls.Add(personnel[i].person_inn_tb);
-                        tableLayoutPanel1.Controls.Add(personnel[i].brigade_id_tb);
+                        tableLayoutPanel1.Controls.AddRange(personnel[i].TextBoxes.ToArray());
                         tableLayoutPanel1.Controls.Add(personnel[i].updateButton);
                         tableLayoutPanel1.Controls.Add(personnel[i].deleteButton);
 
@@ -741,11 +728,7 @@ namespace DBCourse
 
                     for (int i = 0; i < spare_parts.Count; ++i)
                     {
-                        tableLayoutPanel1.Controls.Add(spare_parts[i].car_id_tb);
-                        tableLayoutPanel1.Controls.Add(spare_parts[i].failure_id_tb);
-                        tableLayoutPanel1.Controls.Add(spare_parts[i].part_name_tb);
-                        tableLayoutPanel1.Controls.Add(spare_parts[i].part_cost_tb);
-                        tableLayoutPanel1.Controls.Add(spare_parts[i].part_amount_tb);
+                        tableLayoutPanel1.Controls.AddRange(spare_parts[i].TextBoxes.ToArray());
                         tableLayoutPanel1.Controls.Add(spare_parts[i].updateButton);
                         tableLayoutPanel1.Controls.Add(spare_parts[i].deleteButton);
 
@@ -774,8 +757,7 @@ namespace DBCourse
 
                     for (int i = 0; i < workshops.Count; ++i)
                     {
-                        tableLayoutPanel1.Controls.Add(workshops[i].workshop_name_tb);
-                        tableLayoutPanel1.Controls.Add(workshops[i].workshop_id_tb);
+                        tableLayoutPanel1.Controls.AddRange(workshops[i].TextBoxes.ToArray());
                         tableLayoutPanel1.Controls.Add(workshops[i].updateButton);
                         tableLayoutPanel1.Controls.Add(workshops[i].deleteButton);
 
@@ -807,11 +789,7 @@ namespace DBCourse
 
                     for (int i = 0; i < cars_in_work.Count; ++i)
                     {
-                        tableLayoutPanel1.Controls.Add(cars_in_work[i].car_id_tb);
-                        tableLayoutPanel1.Controls.Add(cars_in_work[i].failure_id_tb);
-                        tableLayoutPanel1.Controls.Add(cars_in_work[i].arrival_date_tb);
-                        tableLayoutPanel1.Controls.Add(cars_in_work[i].leaving_date_tb);
-                        tableLayoutPanel1.Controls.Add(cars_in_work[i].brigade_id_tb);
+                        tableLayoutPanel1.Controls.AddRange(cars_in_work[i].TextBoxes.ToArray());
                         tableLayoutPanel1.Controls.Add(cars_in_work[i].updateButton);
                         tableLayoutPanel1.Controls.Add(cars_in_work[i].deleteButton);
 
@@ -840,8 +818,7 @@ namespace DBCourse
 
                     for (int i = 0; i < free_brigades.Count; ++i)
                     {
-                        tableLayoutPanel1.Controls.Add(free_brigades[i].brigade_name_tb);
-                        tableLayoutPanel1.Controls.Add(free_brigades[i].brigade_id_tb);
+                        tableLayoutPanel1.Controls.AddRange(free_brigades[i].TextBoxes.ToArray());
                         tableLayoutPanel1.Controls.Add(free_brigades[i].updateButton);
                         tableLayoutPanel1.Controls.Add(free_brigades[i].deleteButton);
 
@@ -871,9 +848,7 @@ namespace DBCourse
 
                     for (int i = 0; i < number_of_failures_by_cars.Count; ++i)
                     {
-                        tableLayoutPanel1.Controls.Add(number_of_failures_by_cars[i].workshop_id_tb);
-                        tableLayoutPanel1.Controls.Add(number_of_failures_by_cars[i].person_inn_tb);
-                        tableLayoutPanel1.Controls.Add(number_of_failures_by_cars[i].brigade_id_tb);
+                        tableLayoutPanel1.Controls.AddRange(number_of_failures_by_cars[i].TextBoxes.ToArray());
                         tableLayoutPanel1.Controls.Add(number_of_failures_by_cars[i].updateButton);
                         tableLayoutPanel1.Controls.Add(number_of_failures_by_cars[i].deleteButton);
 
