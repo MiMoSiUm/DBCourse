@@ -16,6 +16,8 @@ namespace DBCourse
         List<Spare_parts> spare_parts = new List<Spare_parts>();
         List<Workshops> workshops = new List<Workshops>();
         List<Cars_in_work> cars_in_work = new List<Cars_in_work>();
+        List<Free_brigades> free_brigades = new List<Free_brigades>();
+        List<Number_of_failures_by_cars> number_of_failures_by_cars = new List<Number_of_failures_by_cars>();
         Tables current_table = Tables.None;
         string sort = "ASC";
         public Form1()
@@ -82,6 +84,22 @@ namespace DBCourse
         async private void button8_Click(object sender, EventArgs e)
         {
             current_table = Tables.Cars_in_work;
+            tableLayoutPanel1.Controls.Clear();
+            FilterTableAdd();
+            await Update(sender, e);
+        }
+
+        async private void button9_Click(object sender, EventArgs e)
+        {
+            current_table = Tables.Free_brigades;
+            tableLayoutPanel1.Controls.Clear();
+            FilterTableAdd();
+            await Update(sender, e);
+        }
+
+        async private void button10_Click(object sender, EventArgs e)
+        {
+            current_table = Tables.Number_of_failures_by_cars;
             tableLayoutPanel1.Controls.Clear();
             FilterTableAdd();
             await Update(sender, e);
@@ -283,6 +301,52 @@ namespace DBCourse
 
                     break;
 
+                case Tables.Free_brigades:
+                    tableName = Free_brigades.Name;
+
+                    for (int i = 0; i < tableLayoutPanel1.ColumnCount - 2; ++i)
+                    {
+                        if (tableLayoutPanel1.Controls[i].Text != "")
+                            parameters.Add(new NpgsqlParameter
+                            {
+                                Value = Convert.ChangeType(tableLayoutPanel1.Controls[i].Text, Free_brigades.Types[i])
+                            });
+                    }
+
+                    for (int i = 0; i < Free_brigades.Columns.Count; ++i)
+                    {
+                        if (tableLayoutPanel1.Controls[i].Text != "")
+                        {
+                            cols.Add(Free_brigades.Columns[i]);
+                            placeholders.Add($"${cols.Count}");
+                        }
+                    }
+
+                    break;
+
+                case Tables.Number_of_failures_by_cars:
+                    tableName = Number_of_failures_by_cars.Name;
+
+                    for (int i = 0; i < tableLayoutPanel1.ColumnCount - 2; ++i)
+                    {
+                        if (tableLayoutPanel1.Controls[i].Text != "")
+                            parameters.Add(new NpgsqlParameter
+                            {
+                                Value = Convert.ChangeType(tableLayoutPanel1.Controls[i].Text, Number_of_failures_by_cars.Types[i])
+                            });
+                    }
+
+                    for (int i = 0; i < Number_of_failures_by_cars.Columns.Count; ++i)
+                    {
+                        if (tableLayoutPanel1.Controls[i].Text != "")
+                        {
+                            cols.Add(Number_of_failures_by_cars.Columns[i]);
+                            placeholders.Add($"${cols.Count}");
+                        }
+                    }
+
+                    break;
+
                 default:
                     break;
             }
@@ -364,6 +428,14 @@ namespace DBCourse
                         FilterTable.ColumnCount = Cars_in_work.Columns.Count + 2;
                         cols = Cars_in_work.Columns;
                         break;
+                    case Tables.Free_brigades:
+                        FilterTable.ColumnCount = Free_brigades.Columns.Count + 2;
+                        cols = Free_brigades.Columns;
+                        break;
+                    case Tables.Number_of_failures_by_cars:
+                        FilterTable.ColumnCount = Number_of_failures_by_cars.Columns.Count + 2;
+                        cols = Number_of_failures_by_cars.Columns;
+                        break;
 
                     default:
                         break;
@@ -437,6 +509,16 @@ namespace DBCourse
                     tableName = Cars_in_work.Name;
                     types = Cars_in_work.Types;
                     cols = Cars_in_work.Columns;
+                    break;
+                case Tables.Free_brigades:
+                    tableName = Free_brigades.Name;
+                    types = Free_brigades.Types;
+                    cols = Free_brigades.Columns;
+                    break;
+                case Tables.Number_of_failures_by_cars:
+                    tableName = Number_of_failures_by_cars.Name;
+                    types = Number_of_failures_by_cars.Types;
+                    cols = Number_of_failures_by_cars.Columns;
                     break;
 
                 default:
@@ -734,6 +816,68 @@ namespace DBCourse
                         tableLayoutPanel1.Controls.Add(cars_in_work[i].deleteButton);
 
                         cars_in_work[i].deleteButton.Click += (sender, args) => Update(sender, args);
+                    }
+                    break;
+
+                case Tables.Free_brigades:
+                    free_brigades.Clear();
+                    while (await reader.ReadAsync())
+                    {
+                        free_brigades.Add(new Free_brigades(
+                            reader.GetString(0),
+                            reader.GetInt32(1)
+                        ));
+                    }
+                    tableLayoutPanel1.ColumnCount = Free_brigades.Columns.Count + 2;
+                    tableLayoutPanel1.RowCount = 0;
+
+                    BlankRowAdd(Free_brigades.Columns);
+
+                    for (int i = 0; i < Free_brigades.Columns.Count; ++i)
+                        tableLayoutPanel1.Controls.Add(new Label() { Text = Free_brigades.Columns[i] });
+                    tableLayoutPanel1.Controls.Add(new Label() { Text = " " });
+                    tableLayoutPanel1.Controls.Add(new Label() { Text = " " });
+
+                    for (int i = 0; i < free_brigades.Count; ++i)
+                    {
+                        tableLayoutPanel1.Controls.Add(free_brigades[i].brigade_name_tb);
+                        tableLayoutPanel1.Controls.Add(free_brigades[i].brigade_id_tb);
+                        tableLayoutPanel1.Controls.Add(free_brigades[i].updateButton);
+                        tableLayoutPanel1.Controls.Add(free_brigades[i].deleteButton);
+
+                        free_brigades[i].deleteButton.Click += (sender, args) => Update(sender, args);
+                    }
+                    break;
+
+                case Tables.Number_of_failures_by_cars:
+                    number_of_failures_by_cars.Clear();
+                    while (await reader.ReadAsync())
+                    {
+                        number_of_failures_by_cars.Add(new Number_of_failures_by_cars(
+                            reader.GetInt32(0),
+                            reader.GetString(1),
+                            reader.GetInt64(2)
+                        ));
+                    }
+                    tableLayoutPanel1.ColumnCount = Number_of_failures_by_cars.Columns.Count + 2;
+                    tableLayoutPanel1.RowCount = 0;
+
+                    BlankRowAdd(Number_of_failures_by_cars.Columns);
+
+                    for (int i = 0; i < Number_of_failures_by_cars.Columns.Count; ++i)
+                        tableLayoutPanel1.Controls.Add(new Label() { Text = Number_of_failures_by_cars.Columns[i] });
+                    tableLayoutPanel1.Controls.Add(new Label() { Text = " " });
+                    tableLayoutPanel1.Controls.Add(new Label() { Text = " " });
+
+                    for (int i = 0; i < number_of_failures_by_cars.Count; ++i)
+                    {
+                        tableLayoutPanel1.Controls.Add(number_of_failures_by_cars[i].workshop_id_tb);
+                        tableLayoutPanel1.Controls.Add(number_of_failures_by_cars[i].person_inn_tb);
+                        tableLayoutPanel1.Controls.Add(number_of_failures_by_cars[i].brigade_id_tb);
+                        tableLayoutPanel1.Controls.Add(number_of_failures_by_cars[i].updateButton);
+                        tableLayoutPanel1.Controls.Add(number_of_failures_by_cars[i].deleteButton);
+
+                        number_of_failures_by_cars[i].deleteButton.Click += (sender, args) => Update(sender, args);
                     }
                     break;
 

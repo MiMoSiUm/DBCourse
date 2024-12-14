@@ -42,6 +42,8 @@
             AscButton = new Button();
             DescButton = new Button();
             button8 = new Button();
+            button9 = new Button();
+            button10 = new Button();
             SuspendLayout();
             // 
             // button1
@@ -142,7 +144,7 @@
             FilterTable.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             FilterTable.ColumnCount = 1;
             FilterTable.ColumnStyles.Add(new ColumnStyle());
-            FilterTable.Location = new Point(12, 41);
+            FilterTable.Location = new Point(12, 71);
             FilterTable.Name = "FilterTable";
             FilterTable.RowCount = 1;
             FilterTable.RowStyles.Add(new RowStyle());
@@ -179,7 +181,7 @@
             // 
             // button8
             // 
-            button8.Location = new Point(12, 86);
+            button8.Location = new Point(12, 42);
             button8.Name = "button8";
             button8.Size = new Size(99, 23);
             button8.TabIndex = 14;
@@ -187,11 +189,33 @@
             button8.UseVisualStyleBackColor = true;
             button8.Click += button8_Click;
             // 
+            // button9
+            // 
+            button9.Location = new Point(117, 42);
+            button9.Name = "button9";
+            button9.Size = new Size(99, 23);
+            button9.TabIndex = 15;
+            button9.Text = "free_brigades";
+            button9.UseVisualStyleBackColor = true;
+            button9.Click += button9_Click;
+            // 
+            // button10
+            // 
+            button10.Location = new Point(222, 42);
+            button10.Name = "button10";
+            button10.Size = new Size(204, 23);
+            button10.TabIndex = 16;
+            button10.Text = "number_of_failures_by_cars";
+            button10.UseVisualStyleBackColor = true;
+            button10.Click += button10_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(970, 450);
+            Controls.Add(button10);
+            Controls.Add(button9);
             Controls.Add(button8);
             Controls.Add(DescButton);
             Controls.Add(AscButton);
@@ -227,5 +251,7 @@
         private Button AscButton;
         private Button DescButton;
         private Button button8;
+        private Button button9;
+        private Button button10;
     }
 }
