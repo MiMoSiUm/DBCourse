@@ -39,10 +39,10 @@ namespace DBCourse
 
         public TableLine()
         {
-            updateButton = new Button() { Text = "Изменить" };
+            updateButton = new Button() { Text = "Изменить", Visible = false };
             updateButton.Click += (sender, args) => Update(sender, args);
 
-            deleteButton = new Button() { Text = "Удалить" };
+            deleteButton = new Button() { Text = "Удалить", Visible = false };
             deleteButton.Click += (sender, args) => Delete(sender, args);
         }
         async protected void Update(object sender, EventArgs e)
@@ -114,7 +114,7 @@ namespace DBCourse
 
             TextBoxes = new List<TextBox>();
             for (int i = 0; i < Columns.Count; ++i)
-                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}" });
+                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}", Visible = false });
 
             Types = new List<Type>();
             for (int i = 0; i < ColsData.Count; ++i)
@@ -150,7 +150,7 @@ namespace DBCourse
 
             TextBoxes = new List<TextBox>();
             for (int i = 0; i < Columns.Count; ++i)
-                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}" });
+                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}", Visible = false });
 
             Types = new List<Type>();
             for (int i = 0; i < ColsData.Count; ++i)
@@ -181,7 +181,7 @@ namespace DBCourse
 
             TextBoxes = new List<TextBox>();
             for (int i = 0; i < Columns.Count; ++i)
-                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}" });
+                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}", Visible = false });
 
             Types = new List<Type>();
             for (int i = 0; i < ColsData.Count; ++i)
@@ -210,7 +210,7 @@ namespace DBCourse
 
             TextBoxes = new List<TextBox>();
             for (int i = 0; i < Columns.Count; ++i)
-                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}" });
+                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}", Visible = false });
 
             Types = new List<Type>();
             for (int i = 0; i < ColsData.Count; ++i)
@@ -239,7 +239,7 @@ namespace DBCourse
 
             TextBoxes = new List<TextBox>();
             for (int i = 0; i < Columns.Count; ++i)
-                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}" });
+                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}", Visible = false });
 
             Types = new List<Type>();
             for (int i = 0; i < ColsData.Count; ++i)
@@ -270,7 +270,7 @@ namespace DBCourse
 
             TextBoxes = new List<TextBox>();
             for (int i = 0; i < Columns.Count; ++i)
-                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}" });
+                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}", Visible = false });
 
             Types = new List<Type>();
             for (int i = 0; i < ColsData.Count; ++i)
@@ -298,7 +298,7 @@ namespace DBCourse
 
             TextBoxes = new List<TextBox>();
             for (int i = 0; i < Columns.Count; ++i)
-                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}" });
+                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}", Visible = false });
 
             Types = new List<Type>();
             for (int i = 0; i < ColsData.Count; ++i)
@@ -354,7 +354,7 @@ namespace DBCourse
 
             TextBoxes = new List<TextBox>();
             for (int i = 0; i < Columns.Count; ++i)
-                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}" });
+                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}", Visible = false });
 
             Types = new List<Type>();
             for (int i = 0; i < ColsData.Count; ++i)
@@ -382,7 +382,7 @@ namespace DBCourse
 
             TextBoxes = new List<TextBox>();
             for (int i = 0; i < Columns.Count; ++i)
-                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}" });
+                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}", Visible = false });
 
             Types = new List<Type>();
             for (int i = 0; i < ColsData.Count; ++i)
@@ -410,7 +410,7 @@ namespace DBCourse
 
             TextBoxes = new List<TextBox>();
             for (int i = 0; i < Columns.Count; ++i)
-                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}" });
+                TextBoxes.Add(new TextBox() { Text = $"{ColsData[i]}", Visible = false });
 
             updateButton.Enabled = false;
             deleteButton.Enabled = false;

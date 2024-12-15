@@ -360,10 +360,9 @@ namespace DBCourse
         void BlankRowAdd(List<string> cols)
         {
             for (int i = 0; i < tableLayoutPanel1.ColumnCount - 2; ++i)
-                tableLayoutPanel1.Controls.Add(new TextBox() { PlaceholderText = cols[i] });
+                tableLayoutPanel1.Controls.Add(new TextBox() { PlaceholderText = cols[i], Visible = false });
 
-            Button addButton = new Button();
-            addButton.Text = "Добавить";
+            Button addButton = new Button() { Text = "Добавить", Visible = false };
             addButton.Click += (sender, args) => Add_row_click(sender, args);
             addButton.Click += (sender, args) => Update(sender, args);
             tableLayoutPanel1.Controls.Add(addButton);
@@ -385,6 +384,7 @@ namespace DBCourse
             for (int i = 0; i < tableLayoutPanel1.Controls.Count; ++i)
             {
                 tableLayoutPanel1.Controls[i].Width = ((Width - 80) / tableLayoutPanel1.ColumnCount);
+                tableLayoutPanel1.Controls[i].Visible = true;
                 //tableLayoutPanel1.Controls[i].Dock = DockStyle.Fill;
             }
         }
