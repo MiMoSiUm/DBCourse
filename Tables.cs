@@ -58,7 +58,7 @@ namespace DBCourse
                 if (ColsData[i].ToString() != TextBoxes[i].Text)
                 {
                     ++counter;
-                    expressions.Add($"{Columns[i]} = ${i + 1}");
+                    expressions.Add($"{Columns[i]} = ${counter}");
                     parameters.Add(new() { Value = Convert.ChangeType(TextBoxes[i].Text, Types[i]) });
                 }
             }

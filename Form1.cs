@@ -6,8 +6,8 @@ namespace DBCourse
 {
     public partial class Form1 : Form
     {
-        public static readonly string connectionString = "Host=192.168.1.119;Username=postgres;Password=postgres;Database=course work";
-        //public static readonly string connectionString = "Host=localhost;Username=postgres;Password=postgres;Database=course work";
+        //public static readonly string connectionString = "Host=192.168.1.119;Username=postgres;Password=postgres;Database=course work";
+        public static readonly string connectionString = "Host=localhost;Username=postgres;Password=postgres;Database=course work";
         List<Brigades> brigades = new List<Brigades>();
         List<Car_repair> car_repair = new List<Car_repair>();
         List<Cars> cars = new List<Cars>();
@@ -357,14 +357,14 @@ namespace DBCourse
 
             await command.ExecuteNonQueryAsync();
         }
-        void BlankRowAdd(List<string> cols)
+        async void BlankRowAdd(List<string> cols)
         {
             for (int i = 0; i < tableLayoutPanel1.ColumnCount - 2; ++i)
                 tableLayoutPanel1.Controls.Add(new TextBox() { PlaceholderText = cols[i], Visible = false });
 
             Button addButton = new Button() { Text = "Добавить", Visible = false };
             addButton.Click += (sender, args) => Add_row_click(sender, args);
-            addButton.Click += (sender, args) => Update(sender, args);
+            addButton.Click += async (sender, args) => Update(sender, args);
             tableLayoutPanel1.Controls.Add(addButton);
             tableLayoutPanel1.Controls.Add(new Label { Text = " " });
         }
@@ -575,7 +575,7 @@ namespace DBCourse
                         tableLayoutPanel1.Controls.Add(brigades[i].updateButton);
                         tableLayoutPanel1.Controls.Add(brigades[i].deleteButton);
 
-                        brigades[i].deleteButton.Click += (sender, args) => Update(sender, args);
+                        brigades[i].deleteButton.Click += async (sender, args) => Update(sender, args);
                     }
                     break;
 
@@ -607,7 +607,7 @@ namespace DBCourse
                         tableLayoutPanel1.Controls.Add(car_repair[i].updateButton);
                         tableLayoutPanel1.Controls.Add(car_repair[i].deleteButton);
 
-                        car_repair[i].deleteButton.Click += (sender, args) => Update(sender, args);
+                        car_repair[i].deleteButton.Click += async (sender, args) => Update(sender, args);
                     }
                     break;
 
@@ -639,7 +639,7 @@ namespace DBCourse
                         tableLayoutPanel1.Controls.Add(cars[i].updateButton);
                         tableLayoutPanel1.Controls.Add(cars[i].deleteButton);
 
-                        cars[i].deleteButton.Click += (sender, args) => Update(sender, args);
+                        cars[i].deleteButton.Click += async (sender, args) => Update(sender, args);
                     }
                     break;
 
@@ -670,7 +670,7 @@ namespace DBCourse
                         tableLayoutPanel1.Controls.Add(failures[i].updateButton);
                         tableLayoutPanel1.Controls.Add(failures[i].deleteButton);
 
-                        failures[i].deleteButton.Click += (sender, args) => Update(sender, args);
+                        failures[i].deleteButton.Click += async (sender, args) => Update(sender, args);
                     }
                     break;
 
@@ -700,7 +700,7 @@ namespace DBCourse
                         tableLayoutPanel1.Controls.Add(personnel[i].updateButton);
                         tableLayoutPanel1.Controls.Add(personnel[i].deleteButton);
 
-                        personnel[i].deleteButton.Click += (sender, args) => Update(sender, args);
+                        personnel[i].deleteButton.Click += async (sender, args) => Update(sender, args);
                     }
                     break;
 
@@ -732,7 +732,7 @@ namespace DBCourse
                         tableLayoutPanel1.Controls.Add(spare_parts[i].updateButton);
                         tableLayoutPanel1.Controls.Add(spare_parts[i].deleteButton);
 
-                        spare_parts[i].deleteButton.Click += (sender, args) => Update(sender, args);
+                        spare_parts[i].deleteButton.Click += async (sender, args) => Update(sender, args);
                     }
                     break;
 
@@ -761,7 +761,7 @@ namespace DBCourse
                         tableLayoutPanel1.Controls.Add(workshops[i].updateButton);
                         tableLayoutPanel1.Controls.Add(workshops[i].deleteButton);
 
-                        workshops[i].deleteButton.Click += (sender, args) => Update(sender, args);
+                        workshops[i].deleteButton.Click += async (sender, args) => Update(sender, args);
                     }
                     break;
 
@@ -793,7 +793,7 @@ namespace DBCourse
                         tableLayoutPanel1.Controls.Add(cars_in_work[i].updateButton);
                         tableLayoutPanel1.Controls.Add(cars_in_work[i].deleteButton);
 
-                        cars_in_work[i].deleteButton.Click += (sender, args) => Update(sender, args);
+                        cars_in_work[i].deleteButton.Click += async (sender, args) => Update(sender, args);
                     }
                     break;
 
@@ -822,7 +822,7 @@ namespace DBCourse
                         tableLayoutPanel1.Controls.Add(free_brigades[i].updateButton);
                         tableLayoutPanel1.Controls.Add(free_brigades[i].deleteButton);
 
-                        free_brigades[i].deleteButton.Click += (sender, args) => Update(sender, args);
+                        free_brigades[i].deleteButton.Click += async (sender, args) => Update(sender, args);
                     }
                     break;
 
@@ -852,7 +852,7 @@ namespace DBCourse
                         tableLayoutPanel1.Controls.Add(number_of_failures_by_cars[i].updateButton);
                         tableLayoutPanel1.Controls.Add(number_of_failures_by_cars[i].deleteButton);
 
-                        number_of_failures_by_cars[i].deleteButton.Click += (sender, args) => Update(sender, args);
+                        number_of_failures_by_cars[i].deleteButton.Click += async (sender, args) => Update(sender, args);
                     }
                     break;
 
@@ -877,6 +877,27 @@ namespace DBCourse
         {
             sort = "DESC";
             await Update(sender, e);
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            switch (comboBox2.Text)
+            {
+                case "Стоимость ремонта":
+                    ReportForm reportForm = new ReportForm();
+                    reportForm.Show();
+                    break;
+                case "Производительность труда бригад":
+                    Report2Form report2Form = new Report2Form();
+                    report2Form.Show();
+                    break;
+                case "Выручка сервисов":
+                    Report3Form report3Form = new Report3Form();
+                    report3Form.Show();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

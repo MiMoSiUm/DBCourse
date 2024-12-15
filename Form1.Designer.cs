@@ -44,6 +44,8 @@
             button8 = new Button();
             button9 = new Button();
             button10 = new Button();
+            comboBox2 = new ComboBox();
+            button11 = new Button();
             SuspendLayout();
             // 
             // button1
@@ -209,11 +211,33 @@
             button10.UseVisualStyleBackColor = true;
             button10.Click += button10_Click;
             // 
+            // comboBox2
+            // 
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Items.AddRange(new object[] { "Стоимость ремонта", "Производительность труда бригад", "Выручка сервисов" });
+            comboBox2.Location = new Point(432, 42);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(309, 23);
+            comboBox2.TabIndex = 17;
+            comboBox2.Text = "Стоимость ремонта";
+            // 
+            // button11
+            // 
+            button11.Location = new Point(747, 41);
+            button11.Name = "button11";
+            button11.Size = new Size(151, 23);
+            button11.TabIndex = 18;
+            button11.Text = "Сформировать отчёт";
+            button11.UseVisualStyleBackColor = true;
+            button11.Click += button11_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(970, 450);
+            Controls.Add(button11);
+            Controls.Add(comboBox2);
             Controls.Add(button10);
             Controls.Add(button9);
             Controls.Add(button8);
@@ -253,5 +277,7 @@
         private Button button8;
         private Button button9;
         private Button button10;
+        private ComboBox comboBox2;
+        private Button button11;
     }
 }
